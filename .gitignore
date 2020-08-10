@@ -1,0 +1,19 @@
+<<<<<<< HEAD
+node_modules
+dist
+target
+coverage
+typings
+maven
+test/e2e/screenshots
+*npm-debug.log
+.history
+.idea
+*.iml
+.yo-rc.json
+storybook-static/
+=======
+# dependencies
+/node_modules
+package-lock.json
+>>>>>>> 895ab6eadeccb35a4c6641f762fc9d910d92bea3
