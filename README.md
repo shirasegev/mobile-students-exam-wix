@@ -31,8 +31,6 @@ The current code base is far from perfect. While you complete the following task
 	1. Images of the items (or an image of the most expensive item)
 	1. The exact time of the order
 
-TO DO - find examples for inspiration 
-
 ### Part B - Search and filters:
 
 1. We are showing the last 20 orders. The rumor in the call centers says there are a lot more. Please fix this, and **remember that we’re spreading worldwide, and we will have many more orders soon. Much much more.**
