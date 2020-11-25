@@ -15,12 +15,14 @@ app.use((_, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', '*');
 	res.setHeader('Access-Control-Allow-Headers', '*');
+	res.setHeader('Access-Control-Expose-Headers', 'Number-Of-Pages');
 	next();
 });
 
 app.get('/api/orders', (req, res) => {
 	const page = <number>(req.query.page || 1);
 	const orders: any[] = allOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+	res.header('Number-Of-Pages', (allOrders.length / PAGE_SIZE).toFixed());
 	res.send(orders);
 });
 

@@ -167,4 +167,39 @@ body {
 		font-weight: 500;
 		font-size: 12px;
 	}
+
+	// Part B1
+	.nextPrevButtons{
+		margin: 0;
+		padding: 0;
+		width: 1020px;
+
+		.prevPageButton{
+			cursor: pointer;
+			display: inline-block;
+			color: #3899ec;
+			font-weight: 500;
+			font-size: 14px;
+			outline: none;
+			background: none;
+			border: 0;
+			text-align: left;
+			width: 50%;
+			vertical-align: top;
+		}
+
+		.nextPageButton {
+			cursor: pointer;
+			display: inline-block;
+			color: #3899ec;
+			font-weight: 500;
+			font-size: 14px;
+			outline: none;
+			background: none;
+			border: 0;
+			text-align: right;
+			width: 50%;
+			vertical-align: top;
+		}
+	}
 }

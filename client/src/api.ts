@@ -34,15 +34,18 @@ export type Item = {
 }
 
 export type ApiClient = {
-	getOrders: () => Promise<Order[]>;
+	getOrders: (page: number) => Promise<[Order[], number]>;
 	getItem: (itemId: string) => Promise<Item>;
 	putOrder: (order: Order) => Promise<Order>;
 }
 
 export const createApiClient = (): ApiClient => {
 	return {
-		getOrders: () => {
-			return axios.get(`http://localhost:3232/api/orders`).then((res) => res.data);
+		getOrders: async (page: number) => {
+			const res = await axios.get(`http://localhost:3232/api/orders?
+										page=${page}`
+									);
+			return [res.data, res.headers['number-of-pages']];
 		},
 		getItem: (itemId: string) => {
 			return axios.get(`http://localhost:3232/api/items/${itemId}?size=small`).then((res) => res.data);
