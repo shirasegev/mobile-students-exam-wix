@@ -22,8 +22,10 @@ app.use((_, res, next) => {
 app.get('/api/orders', (req, res) => {
 	const page = <number>(req.query.page || 1);
 	const search = <string>(req.query.search || '');
+	const fulfillmentFilter = <string>(req.query.fulfillmentFilter || '');
+	const paymentFilter = <string>(req.query.paymentFilter || '');
 
-	const myOrders = <any>applySearch(allOrders, search);
+	var myOrders = <any>applySearch(allOrders, search, fulfillmentFilter, paymentFilter);
 
 	const orders: any[] = myOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 	res.header('Number-Of-Pages', (myOrders.length / PAGE_SIZE).toFixed());
@@ -55,10 +57,12 @@ app.put('/api/order/:orderId', (req, res) => {
 });
 
 // Part B2
-const applySearch = (orders: any[], search: string) => {
+const applySearch = (orders: any[], search: string, fulfillmentFilter: string, paymentFilter: string) => {
 	return (
 		orders.filter(
-			(order) =>
+			(order) => 
+				(fulfillmentFilter !== '' ? order.fulfillmentStatus === fulfillmentFilter : true) &&
+				(paymentFilter !== '' ? order.billingInfo.status === paymentFilter : true) &&
 				(search !== '' ? buildStr(order).includes(search) : true)
 		)
 	);

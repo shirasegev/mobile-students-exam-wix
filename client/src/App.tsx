@@ -9,6 +9,8 @@ export type AppState = {
 	
 	page: number,
 	totalPages: number,
+	selectedFulfillmentOption: string,
+	selectedPaymentOption: string,
 }
 
 export const api = createApiClient();
@@ -20,6 +22,8 @@ export class App extends React.PureComponent<{}, AppState> {
 
 		page: 1,
 		totalPages: 1,
+		selectedFulfillmentOption: '',
+		selectedPaymentOption: '',
 	};
 
 	searchDebounce: any = null;
@@ -45,6 +49,7 @@ export class App extends React.PureComponent<{}, AppState> {
 				<header>
 					<input type="search" placeholder="Search" onChange={(e) => this.onSearch(e.target.value)}/>
 				</header>
+				{this.renderFilterButtons()}
 				{orders ? <div className='results'>Showing {orders.length} results</div> : null}
 				{orders ? this.renderOrders(orders) : <h2>Loading...</h2>}
 				{this.renderNextPrevButtons(orders)}
@@ -63,16 +68,20 @@ export class App extends React.PureComponent<{}, AppState> {
 		)
 	};
 
-	getOrders = async (page?: number, search?: string,) => {
+	getOrders = async (page?: number, search?: string, selectedFulfillmentOption?: string, selectedPaymentOption?: string) => {
 		var pageNumber = page ?? 1;
 		var searchTerm =  search ?? this.state.search;
+		var fulfillmentFilter = selectedFulfillmentOption ?? this.state.selectedFulfillmentOption;
+		var paymentFilter = selectedPaymentOption ?? this.state.selectedPaymentOption;
 		
-		const [orders, totalPages] = await api.getOrders(pageNumber, searchTerm);
+		const [orders, totalPages] = await api.getOrders(pageNumber, searchTerm, fulfillmentFilter, paymentFilter);
 		this.setState({
 			orders: orders,
 			page: pageNumber,
 			totalPages: totalPages,
 			search: searchTerm,
+			selectedFulfillmentOption: fulfillmentFilter,
+			selectedPaymentOption: paymentFilter,
 		});
 	};
 
@@ -99,6 +108,56 @@ export class App extends React.PureComponent<{}, AppState> {
     prevPage = async (val: number) => {
 		this.getOrders(this.state.page - val);
 	};
+
+	// Part B 3
+	renderFilterButtons = () => {
+		return (
+			<div className={'filters'}>
+				<div className={'filter'}>
+					<h4>Fulfillment filter: </h4>
+					<div className={'filterPicker'}>{this.showFulfillmentFilterOptions()}</div>
+				</div>
+				<div className={'filter'}>
+					<h4>Payment filter: </h4>
+					<div className={'filterPicker'}>{this.showPaymentFilterOptions()}</div>
+				</div>
+			</div>	
+		);
+	}
+
+	showFulfillmentFilterOptions = () => {
+		return (
+			<div className={'selectOption'}>
+				<select className={'selectpicker'} onChange={(e) => this.handleFulfillmentOptionChange(e.target.value)}>
+					<option value=''>				All orders				</option>
+					<option value='fulfilled'>		Delivered orders		</option>
+					<option value='not-fulfilled'>	Not delivered orders	</option>
+					<option value='canceled'>		Canceled orders			</option>
+				</select>
+			</div>
+		)
+	};
+
+	handleFulfillmentOptionChange = (value: string) => {
+		this.getOrders(undefined, undefined, value);
+	}
+
+	showPaymentFilterOptions = () => {
+		return (
+			<div className={'selectOption'}>
+				<select className={'selectpicker'} onChange={(e) => this.handlePaymentOptionChange(e.target.value)}>
+					<option value=''>			All orders			</option>
+					<option value='paid'>		Paid orders			</option>
+					<option value='not-paid'>	Not paid orders		</option>
+					<option value='refunded'>	Refunded orders		</option>
+				</select>
+			</div>
+		)
+	};
+
+	handlePaymentOptionChange = (value: string) => {
+		this.getOrders(undefined, undefined, undefined, value);
+	}
 }
 
 export default App;

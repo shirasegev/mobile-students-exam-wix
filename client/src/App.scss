@@ -202,4 +202,33 @@ body {
 			vertical-align: top;
 		}
 	}
+
+	.filters{
+		width: 50%;
+		display: flex;
+		justify-content: space-between;
+		align-self: baseline;
+
+		.filter{
+			display: flex;
+			justify-content: space-between;
+
+			.filterPicker{
+				display: flex;
+				color: #20455e;
+				font-size: 14px;
+				outline: 0;
+				resize: none;
+				border: none;
+
+				.selectOption{
+					.selectpicker{
+						color: #7a92a5;
+						font-size: 14px;
+						margin: 6px 2px;
+					}
+				}
+			}
+		}
+	}
 }
