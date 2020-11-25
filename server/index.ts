@@ -1,9 +1,9 @@
 import express from 'express';
 import bodyParser = require('body-parser');
-const {products} = require('./products.json');
 
 const app = express();
 const allOrders: any[] = require('./orders.json');
+const {products} = require('./products.json');
 
 const PORT = 3232;
 const PAGE_SIZE = 20;
@@ -33,6 +33,18 @@ app.get('/api/items/:itemId', (req, res) => {
 		price: product.price,
 		image: product.images[size]
 	});
+});
+
+// Part A1 - Updating order status at server
+app.put('/api/order/:orderId', (req, res) => {
+	const orderId : number = +<string>(req.params.orderId);
+	const fulfillmentStatus = <string>(req.body);
+	allOrders.forEach((order) => {
+		if (order.id === orderId) {
+			order.fulfillmentStatus = fulfillmentStatus;
+			res.send(order);
+		}
+	})
 });
 
 app.listen(PORT);

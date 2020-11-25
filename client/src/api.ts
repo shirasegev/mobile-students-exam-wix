@@ -32,6 +32,7 @@ export type Item = {
 export type ApiClient = {
 	getOrders: () => Promise<Order[]>;
 	getItem: (itemId: string) => Promise<Item>;
+	putOrder: (order: Order) => Promise<Order>;
 }
 
 export const createApiClient = (): ApiClient => {
@@ -41,7 +42,11 @@ export const createApiClient = (): ApiClient => {
 		},
 		getItem: (itemId: string) => {
 			return axios.get(`http://localhost:3232/api/items/${itemId}`).then((res) => res.data);
-		}
+		},
+		// Part A1 - Updating order status at server
+		putOrder: (order: Order) => {
+			return axios.put(`http://localhost:3232/api/order/${order.id}`, order.fulfillmentStatus, {headers: {"Content-Type": "text/plain"}}).then((res) => res.data);
+		},
 	}
 };
 
