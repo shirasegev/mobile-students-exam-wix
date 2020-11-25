@@ -11,6 +11,7 @@ export type AppState = {
 	totalPages: number,
 	selectedFulfillmentOption: string,
 	selectedPaymentOption: string,
+	sortBy: string,
 }
 
 export const api = createApiClient();
@@ -24,6 +25,7 @@ export class App extends React.PureComponent<{}, AppState> {
 		totalPages: 1,
 		selectedFulfillmentOption: '',
 		selectedPaymentOption: '',
+		sortBy: '',
 	};
 
 	searchDebounce: any = null;
@@ -49,7 +51,10 @@ export class App extends React.PureComponent<{}, AppState> {
 				<header>
 					<input type="search" placeholder="Search" onChange={(e) => this.onSearch(e.target.value)}/>
 				</header>
-				{this.renderFilterButtons()}
+				<div className={'filterAndSort'}>
+					{this.renderSortButtons()}
+					{this.renderFilterButtons()}
+				</div>
 				{orders ? <div className='results'>Showing {orders.length} results</div> : null}
 				{orders ? this.renderOrders(orders) : <h2>Loading...</h2>}
 				{this.renderNextPrevButtons(orders)}
@@ -68,13 +73,14 @@ export class App extends React.PureComponent<{}, AppState> {
 		)
 	};
 
-	getOrders = async (page?: number, search?: string, selectedFulfillmentOption?: string, selectedPaymentOption?: string) => {
+	getOrders = async (page?: number, search?: string, selectedFulfillmentOption?: string, selectedPaymentOption?: string, sortBy?: string) => {
 		var pageNumber = page ?? 1;
 		var searchTerm =  search ?? this.state.search;
 		var fulfillmentFilter = selectedFulfillmentOption ?? this.state.selectedFulfillmentOption;
 		var paymentFilter = selectedPaymentOption ?? this.state.selectedPaymentOption;
+		var sortByParam = sortBy ?? this.state.sortBy;
 		
-		const [orders, totalPages] = await api.getOrders(pageNumber, searchTerm, fulfillmentFilter, paymentFilter);
+		const [orders, totalPages] = await api.getOrders(pageNumber, searchTerm, fulfillmentFilter, paymentFilter, sortByParam);
 		this.setState({
 			orders: orders,
 			page: pageNumber,
@@ -82,6 +88,7 @@ export class App extends React.PureComponent<{}, AppState> {
 			search: searchTerm,
 			selectedFulfillmentOption: fulfillmentFilter,
 			selectedPaymentOption: paymentFilter,
+			sortBy: sortByParam,
 		});
 	};
 
@@ -107,6 +114,30 @@ export class App extends React.PureComponent<{}, AppState> {
 
     prevPage = async (val: number) => {
 		this.getOrders(this.state.page - val);
+	};
+
+	// Part C
+	renderSortButtons = () => {
+		return (
+			<div className={'sort'}>
+				<h4>Sort by: </h4>
+				<div className={'sortingButtons'}>
+					<button className='sortButton' onClick={() => this.sort('')} disabled={this.state.sortBy === '' ? true : false}>
+						None
+					</button>
+					<button className='sortButton' onClick={() => this.sort('name')} disabled={this.state.sortBy === 'name' ? true : false}>
+						Name
+					</button>
+					<button className='sortButton' onClick={() => this.sort('date')} disabled={this.state.sortBy === 'date' ? true : false}>
+						Date
+					</button>
+				</div>
+			</div>
+		);
+	}
+	
+	sort = async (sortBy: string) => {
+		this.getOrders(undefined, undefined, undefined, undefined, sortBy);
 	};
 
 	// Part B 3

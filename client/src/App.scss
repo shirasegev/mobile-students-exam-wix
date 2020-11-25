@@ -203,30 +203,62 @@ body {
 		}
 	}
 
-	.filters{
-		width: 50%;
+
+	.filterAndSort{
 		display: flex;
 		justify-content: space-between;
-		align-self: baseline;
+		margin: 6px 2px;
+		width: 1020px;
 
-		.filter{
+		.filters{
+			width: 50%;
 			display: flex;
 			justify-content: space-between;
+			align-self: baseline;
 
-			.filterPicker{
+			.filter{
 				display: flex;
-				color: #20455e;
-				font-size: 14px;
-				outline: 0;
-				resize: none;
-				border: none;
+				justify-content: space-between;
 
-				.selectOption{
-					.selectpicker{
-						color: #7a92a5;
-						font-size: 14px;
-						margin: 6px 2px;
+				.filterPicker{
+					display: flex;
+					color: #20455e;
+					font-size: 14px;
+					outline: 0;
+					resize: none;
+					border: none;
+
+					.selectOption{
+						.selectpicker{
+							color: #7a92a5;
+							font-size: 14px;
+							margin: 6px 2px;
+						}
 					}
+				}
+			}
+		}
+
+		.sort{
+			width: 50%;
+			display: flex;
+			align-self: baseline;
+
+			.sortingButtons{
+				display: flex;
+
+				.sortButton{
+					border: none;
+					background: none;
+					display: block;
+					cursor: pointer;
+					color: #8eafcc;
+					opacity: 0.6;
+					font-size: 14px;
+				}
+				:disabled{
+					color: #3899ec;
+					font-weight: 500;
 				}
 			}
 		}

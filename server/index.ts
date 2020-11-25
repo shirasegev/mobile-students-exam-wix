@@ -24,9 +24,32 @@ app.get('/api/orders', (req, res) => {
 	const search = <string>(req.query.search || '');
 	const fulfillmentFilter = <string>(req.query.fulfillmentFilter || '');
 	const paymentFilter = <string>(req.query.paymentFilter || '');
+	const sortBy = <string>(req.query.sortBy || '');
 
 	var myOrders = <any>applySearch(allOrders, search, fulfillmentFilter, paymentFilter);
-
+	if (sortBy === 'name'){
+		myOrders.sort((function alphabeticallySort(a: any, b: any) {
+			var nameA = a.customer.name.toLowerCase();
+			var nameB = b.customer.name.toLowerCase();
+			if (nameA > nameB)
+				return 1;
+			if (nameA < nameB)
+				return -1;
+			return 0;
+		}))
+	}
+	else if (sortBy === 'date'){
+		myOrders.sort((function alphabeticallySort(a: any, b: any) {
+			var dateA = a.createdDate;
+			var dateB = b.createdDate;
+			if (dateA > dateB)
+				return 1;
+			if (dateA < dateB)
+				return -1;
+			return 0;
+		}))
+	}
+	
 	const orders: any[] = myOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 	res.header('Number-Of-Pages', (myOrders.length / PAGE_SIZE).toFixed());
 	res.send(orders);
