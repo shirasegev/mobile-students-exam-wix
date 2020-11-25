@@ -168,38 +168,42 @@ body {
 		font-size: 12px;
 	}
 
-	// Part B1
-	.nextPrevButtons{
+	// Part B1 + C
+	.pagination{
 		margin: 0;
 		padding: 0;
-		width: 1020px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		
+		.paginationCard{
+			border-radius: 10px;
+			background-color: white;
+			box-shadow: 0 2px 6px 1px #e1e5e8;
+			border: 1px solid #fff;
+			transition: box-shadow .2s ease-in-out;
 
-		.prevPageButton{
-			cursor: pointer;
-			display: inline-block;
-			color: #3899ec;
-			font-weight: 500;
-			font-size: 14px;
-			outline: none;
-			background: none;
-			border: 0;
-			text-align: left;
-			width: 50%;
-			vertical-align: top;
-		}
+			.page{
+				background-color: white;
+				border: none;
+				font-weight: 300;
+				color: #7a92a5;
+			}
 
-		.nextPageButton {
-			cursor: pointer;
-			display: inline-block;
-			color: #3899ec;
-			font-weight: 500;
-			font-size: 14px;
-			outline: none;
-			background: none;
-			border: 0;
-			text-align: right;
-			width: 50%;
-			vertical-align: top;
+			.curr{
+				border-radius: 10px;
+				background-color:#80baec; /*rgb(110, 130, 230);*/
+				border: none;
+				font-weight: 300;
+				color: #fff;
+			}
+
+			.prevNext{
+				background-color: white;
+				border: 1px;
+				font-weight: 550;
+				color: #7a92a5;
+			}
 		}
 	}
 

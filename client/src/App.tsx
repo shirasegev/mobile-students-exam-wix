@@ -57,7 +57,7 @@ export class App extends React.PureComponent<{}, AppState> {
 				</div>
 				{orders ? <div className='results'>Showing {orders.length} results</div> : null}
 				{orders ? this.renderOrders(orders) : <h2>Loading...</h2>}
-				{this.renderNextPrevButtons(orders)}
+				{this.renderPagination(orders)}
 
 			</main>
 		)
@@ -92,28 +92,63 @@ export class App extends React.PureComponent<{}, AppState> {
 		});
 	};
 
-	// Part B 1
-	renderNextPrevButtons = (orders: Order[] | undefined) => {
+	// Part C & B1
+	renderPagination = (orders: Order[] | undefined) => {
+		var page = this.state.page;
+		var lastPage = this.state.totalPages;
 		return (
-		<div className={'nextPrevButtons'}>
-			<button type='button' style={{visibility:(this.state.page > 1 ? 'visible' : 'hidden')}} className='prevPageButton' onClick={() => this.prevPage(1)}>
-				Previous Page
-			</button>
-			{orders && this.state.page < this.state.totalPages ?
-			<button type='button' className='nextPageButton' onClick={() => this.nextPage(1)}>
-				Next Page
-			</button> : null
-			}
+		<div>
+			<div className={'pagination'}>
+				<div className={'paginationCard'}>
+					{orders ? <>
+						{lastPage > 7 ? <>
+							<button type='button' className={page === 1 ? 'curr' : 'page'} onClick={() => this.jumptoPage(1)}> 1 </button>
+
+							{page > 3 ? <>
+								<button type='button' className='prevNext' onClick={() => this.jumptoPage(page -1)}> {'<<'} </button> 
+								{page + 2 < lastPage ? <button type='button' className='page' onClick={() => this.jumptoPage(page -1)}> {page - 1} </button> : null}
+							</> : <>
+								<button type='button' className={page === 2 ? 'curr' : 'page'} onClick={() => this.jumptoPage(2)}> 2 </button>
+								<button type='button' className={page === 3 ? 'curr' : 'page'} onClick={() => this.jumptoPage(3)}> 3 </button>
+								<button type='button' className={page === 4 ? 'curr' : 'page'} onClick={() => this.jumptoPage(4)}> 4 </button>
+								<button type='button' className={page === 5 ? 'curr' : 'page'} onClick={() => this.jumptoPage(5)}> 5 </button>
+							</>
+							}
+
+							{page > 3 && (page + 2 < lastPage) ? 
+								<button type='button' className='curr'> {page} </button> : null
+							}
+							
+							{page + 2 < lastPage ? <>
+								{page > 3 ? <button type='button' className='page' onClick={() => this.jumptoPage(page + 1)}> {page + 1} </button> : null}
+								<button type='button' className='prevNext' onClick={() => this.jumptoPage(page + 1)}> {'>>'} </button>
+							</> : <>
+								<button type='button' className={page === lastPage - 4 ? 'curr' : 'page'} onClick={() => this.jumptoPage(lastPage - 4)}> {lastPage - 4} </button>
+								<button type='button' className={page === lastPage - 3 ? 'curr' : 'page'} onClick={() => this.jumptoPage(lastPage - 3)}> {lastPage - 3} </button>
+								<button type='button' className={page === lastPage - 2 ? 'curr' : 'page'} onClick={() => this.jumptoPage(lastPage - 2)}> {lastPage - 2} </button>
+								<button type='button' className={page === lastPage - 1 ? 'curr' : 'page'} onClick={() => this.jumptoPage(lastPage - 1)}> {lastPage - 1} </button>
+							</>
+							}
+							
+							<button type='button' className={page === lastPage ? 'curr' : 'page'} onClick={() => this.jumptoPage(lastPage)}> {lastPage} </button>
+						</> : <>
+							{lastPage > 1 ? <button type='button' className={page === 1 ? 'curr' : 'page'} onClick={() => this.jumptoPage(1)}> 1 </button> : null}
+							{lastPage > 2 ? <button type='button' className={page === 2 ? 'curr' : 'page'} onClick={() => this.jumptoPage(2)}> 2 </button> : null}
+							{lastPage > 3 ? <button type='button' className={page === 3 ? 'curr' : 'page'} onClick={() => this.jumptoPage(3)}> 3 </button> : null}
+							{lastPage > 4 ? <button type='button' className={page === 4 ? 'curr' : 'page'} onClick={() => this.jumptoPage(4)}> 4 </button> : null}
+							{lastPage > 5 ? <button type='button' className={page === 5 ? 'curr' : 'page'} onClick={() => this.jumptoPage(5)}> 5 </button> : null}
+							{lastPage > 6 ? <button type='button' className={page === 6 ? 'curr' : 'page'} onClick={() => this.jumptoPage(6)}> 6 </button> : null}
+							{lastPage > 7 ? <button type='button' className={page === 7 ? 'curr' : 'page'} onClick={() => this.jumptoPage(7)}> 7 </button> : null}
+						</>}
+					</> : null}
+				</div>
+			</div>
 		</div>
 		);
 	};
-	
-	nextPage = async (val: number) => {
-		this.getOrders(this.state.page + val);
-    };
 
-    prevPage = async (val: number) => {
-		this.getOrders(this.state.page - val);
+	jumptoPage = async (val: number) => {
+		this.getOrders(val);
 	};
 
 	// Part C
