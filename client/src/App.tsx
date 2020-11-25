@@ -33,9 +33,7 @@ export class App extends React.PureComponent<{}, AppState> {
 		clearTimeout(this.searchDebounce);
 
 		this.searchDebounce = setTimeout(async () => {
-			this.setState({
-				search: value
-			});
+			this.getOrders(undefined, value);
 		}, 300);
 	};
 
@@ -65,14 +63,16 @@ export class App extends React.PureComponent<{}, AppState> {
 		)
 	};
 
-	getOrders = async (page?: number,) => {
+	getOrders = async (page?: number, search?: string,) => {
 		var pageNumber = page ?? 1;
+		var searchTerm =  search ?? this.state.search;
 		
-		const [orders, totalPages] = await api.getOrders(pageNumber);
+		const [orders, totalPages] = await api.getOrders(pageNumber, searchTerm);
 		this.setState({
 			orders: orders,
 			page: pageNumber,
 			totalPages: totalPages,
+			search: searchTerm,
 		});
 	};
 

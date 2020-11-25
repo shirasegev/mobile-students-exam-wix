@@ -21,8 +21,12 @@ app.use((_, res, next) => {
 
 app.get('/api/orders', (req, res) => {
 	const page = <number>(req.query.page || 1);
-	const orders: any[] = allOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-	res.header('Number-Of-Pages', (allOrders.length / PAGE_SIZE).toFixed());
+	const search = <string>(req.query.search || '');
+
+	const myOrders = <any>applySearch(allOrders, search);
+
+	const orders: any[] = myOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+	res.header('Number-Of-Pages', (myOrders.length / PAGE_SIZE).toFixed());
 	res.send(orders);
 });
 
@@ -49,6 +53,24 @@ app.put('/api/order/:orderId', (req, res) => {
 		}
 	})
 });
+
+// Part B2
+const applySearch = (orders: any[], search: string) => {
+	return (
+		orders.filter(
+			(order) =>
+				(search !== '' ? buildStr(order).includes(search) : true)
+		)
+	);
+}
+
+function buildStr (order: any): string {
+	var str = order.customer.name.toLowerCase() + '#' + order.id + '#';
+	order.items.forEach((item: any) => {
+		str += products[item.id].name.toLowerCase();
+	});
+	return str;
+}
 
 app.listen(PORT);
 console.log('Listening on port', PORT);
