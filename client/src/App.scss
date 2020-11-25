@@ -192,7 +192,7 @@ body {
 
 			.curr{
 				border-radius: 10px;
-				background-color:#80baec; /*rgb(110, 130, 230);*/
+				background-color:#80baec;
 				border: none;
 				font-weight: 300;
 				color: #fff;
@@ -264,6 +264,26 @@ body {
 					color: #3899ec;
 					font-weight: 500;
 				}
+			}
+		}
+	}
+
+	// Part D
+	.headers{
+		display: flex;
+		justify-content: space-between;
+		width: 1020px;
+
+		.counterRepo{
+			display: flex;
+			align-items: flex-end;
+			justify-content: flex-end;
+
+			.counterHeader {
+				margin: 8px;
+				align-self: center;
+				padding-top: 14px;
+				display: flex;
 			}
 		}
 	}

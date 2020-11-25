@@ -79,6 +79,12 @@ app.put('/api/order/:orderId', (req, res) => {
 	})
 });
 
+// Part D
+app.get('/api/ordersCounter', (req, res) => {
+	const counter: number = allOrders.filter((order) => (order.fulfillmentStatus === 'not-fulfilled')).length;
+	res.send(counter.toFixed());
+});
+
 // Part B2
 const applySearch = (orders: any[], search: string, fulfillmentFilter: string, paymentFilter: string) => {
 	return (

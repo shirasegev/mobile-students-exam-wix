@@ -12,6 +12,7 @@ export type AppState = {
 	selectedFulfillmentOption: string,
 	selectedPaymentOption: string,
 	sortBy: string,
+	counter: number,
 }
 
 export const api = createApiClient();
@@ -26,12 +27,16 @@ export class App extends React.PureComponent<{}, AppState> {
 		selectedFulfillmentOption: '',
 		selectedPaymentOption: '',
 		sortBy: '',
+		counter: 0,
 	};
 
 	searchDebounce: any = null;
 
 	async componentDidMount() {
 		this.getOrders();
+		
+		// Part D 
+		setInterval(() => this.notDeliverOrders(), 3000);
 	}
 
 	onSearch = async (value: string, newPage?: number) => {
@@ -47,7 +52,13 @@ export class App extends React.PureComponent<{}, AppState> {
 		const {orders} = this.state;
 		return (
 			<main>
-				<h1>Orders</h1>
+				<div className={'headers'}>
+					<h1>Orders</h1>
+					<div className={'counterRepo'}>
+						<h4 className={'counterHeader'}>Undelivered orders: </h4>
+						<h1>{this.state.counter}</h1>
+					</div>
+				</div>
 				<header>
 					<input type="search" placeholder="Search" onChange={(e) => this.onSearch(e.target.value)}/>
 				</header>
@@ -223,6 +234,14 @@ export class App extends React.PureComponent<{}, AppState> {
 
 	handlePaymentOptionChange = (value: string) => {
 		this.getOrders(undefined, undefined, undefined, value);
+	}
+
+	// Part D
+	notDeliverOrders = async () => {
+		let counter : number = await api.getCounter();
+		this.setState({
+			counter: counter,
+		});
 	}
 }
 
