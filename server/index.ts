@@ -9,6 +9,7 @@ const PORT = 3232;
 const PAGE_SIZE = 20;
 
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.use((_, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
