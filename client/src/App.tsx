@@ -40,7 +40,6 @@ export class App extends React.PureComponent<{}, AppState> {
 	}
 
 	onSearch = async (value: string, newPage?: number) => {
-
 		clearTimeout(this.searchDebounce);
 
 		this.searchDebounce = setTimeout(async () => {
@@ -69,7 +68,6 @@ export class App extends React.PureComponent<{}, AppState> {
 				{orders ? <div className='results'>Showing {orders.length} results</div> : null}
 				{orders ? this.renderOrders(orders) : <h2>Loading...</h2>}
 				{this.renderPagination(orders)}
-
 			</main>
 		)
 	}
