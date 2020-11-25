@@ -86,6 +86,54 @@ body {
 		}
 	}
 
+	// Part A2
+	.items {
+		margin: 0;
+		padding: 0;
+
+		.itemCard {
+			position: relative;
+			width: 964px;
+			border-radius: 4px;
+			background-color: white;
+			margin: 0 -1px 6px -1px;
+			padding: 5px 10px;
+
+			&:hover {
+				box-shadow: 0 1px 2px 0px #a5a5a5;
+			}
+
+			.itemImage {
+				display: inline-block;
+				width: 10%;
+			}
+
+			.itemName{
+				padding-top: 16px;
+				display: inline-block;
+				vertical-align: top;
+				text-align: left;
+				width: 35%;
+			}
+
+			.itemQuantity {
+				padding-top: 16px;
+				display: inline-block;
+				vertical-align: top;
+				text-align: left;
+				width: 30%;
+			}
+
+			.itemPrice {
+				padding-top: 16px;
+				display: inline-block;
+				vertical-align: top;
+				text-align: end;
+				width: 25%;
+			}
+		}
+	}
+
 	h4 {
 		font-size: 14px;
 		font-weight: 300;

@@ -1,9 +1,11 @@
 import React from 'react';
-import {Order} from './api';
+import {Order, Item} from './api';
 import {api} from './App';
+import ItemComponent from './Item';
 
 export type OrderState = {
 	order: Order,
+    showOrderDetails: boolean,
 };
 
 type Props = {
@@ -16,6 +18,7 @@ export class OrderComponent extends React.Component<Props, OrderState> {
         super(props);
         this.state = {
             order: props.order,
+            showOrderDetails: false,
         };
     }
   
@@ -25,7 +28,10 @@ export class OrderComponent extends React.Component<Props, OrderState> {
                 <div className={'generalData'}>
                     <h6>{this.state.order.id}</h6>
                     <h4>{this.state.order.customer.name}</h4>
-                    <h5>Order Placed: {new Date(this.state.order.createdDate).toLocaleDateString()}</h5>
+                    {this.state.showOrderDetails 
+                        ? <h5>Order Placed: {new Date(this.state.order.createdDate).toUTCString()}</h5> // Part A2
+                        : <h5>Order Placed: {new Date(this.state.order.createdDate).toLocaleDateString()}</h5>
+                    }
                 </div>
                 <div className={'fulfillmentData'}>
                     <h4>{this.state.order.itemQuantity} Items</h4>
@@ -38,6 +44,7 @@ export class OrderComponent extends React.Component<Props, OrderState> {
                     <img src={OrderComponent.getAssetByStatus(this.state.order.billingInfo.status)}
                         alt={this.state.order.billingInfo.status}/>
                 </div>
+                {this.renderOrderDetails()}
             </div>
         );
     }
@@ -59,6 +66,35 @@ export class OrderComponent extends React.Component<Props, OrderState> {
              order: this.state.order
         });
     };
+    
+    // Part A2
+	renderOrderDetails = () => {
+        return (
+            <div> 
+                <a onClick = {() => {this.orderDetails()}}>
+                    {this.state.showOrderDetails ? 'Close' : 'Order details'}
+                </a>
+                {this.state.showOrderDetails && this.state.order.items ? this.showOrderDetails(this.state.order.items) : null}
+            </div>
+        );
+    };
+
+    orderDetails = () => {
+        this.setState({
+            showOrderDetails: !this.state.showOrderDetails
+        });
+    };
+    
+    showOrderDetails = (items: Item[]) => {
+		return (
+			<div className='items'>
+                <h4>The total amount of items in this order is {this.state.order.itemQuantity}</h4>
+				{items.map((item) => {
+                    return <ItemComponent itemId={item.id} quantity={item.quantity} key={item.id}/>
+				})}
+			</div>
+		)
+    }
     
 	static getAssetByStatus(status: string) {
 		switch (status) {
