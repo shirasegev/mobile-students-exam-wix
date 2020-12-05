@@ -19,7 +19,7 @@ export class ItemComponent extends React.Component<Props, ItemState> {
         super(props);
         this.state = {
             itemId: props.itemId,
-            quantity: props.quantity
+            quantity: props.quantity,
         };
     }
 
