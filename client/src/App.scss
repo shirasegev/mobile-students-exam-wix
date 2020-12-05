@@ -223,21 +223,12 @@ body {
 				display: flex;
 				justify-content: space-between;
 
-				.filterPicker{
-					display: flex;
-					color: #20455e;
+				.selectpicker{
+					border-color:#7a92a5;
+					border-radius: 3px;
+					color: #7a92a5;
 					font-size: 14px;
-					outline: 0;
-					resize: none;
-					border: none;
-
-					.selectOption{
-						.selectpicker{
-							color: #7a92a5;
-							font-size: 14px;
-							margin: 6px 2px;
-						}
-					}
+					margin: 6px 2px;
 				}
 			}
 		}
@@ -251,17 +242,21 @@ body {
 				display: flex;
 
 				.sortButton{
+					padding: 0.3rem 0;
+					margin: 0 0.3rem;
 					border: none;
 					background: none;
 					display: block;
 					cursor: pointer;
-					color: #8eafcc;
+					color: #3899ec;
 					opacity: 0.6;
 					font-size: 14px;
 				}
 				:disabled{
-					color: #3899ec;
+					opacity: 1;
 					font-weight: 500;
+					border-bottom: 1px solid;// #20455e;
+					cursor: not-allowed;
 				}
 			}
 		}
