@@ -53,7 +53,7 @@ export const createApiClient = (): ApiClient => {
 		},
 		// Part A1 - Updating order status at server
 		putOrder: (order: Order) => {
-			return axios.put(`http://localhost:3232/api/order/${order.id}`, order.fulfillmentStatus, {headers: {"Content-Type": "text/plain"}}).then((res) => res.data);
+			return axios.patch(`http://localhost:3232/api/order/${order.id}`, order.fulfillmentStatus, {headers: {"Content-Type": "text/plain"}}).then((res) => res.data);
 		},
 		getCounter: () => {
 			return axios.get(`http://localhost:3232/api/ordersCounter`).then((res) => res.data);
