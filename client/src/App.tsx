@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.scss';
 import {createApiClient} from './api';
-import OrdersComponent from './Orders';
-import SearchBarComponent from './SearchBar';
-import FilterComponent from './Filter';
+import OrdersComponent from './components/Orders';
+import SearchBarComponent from './components/SearchBar';
+import FilterComponent from './components/Filter';
 import SortComponent from './Sort';
-import NotDeliverOrdersCounterComponent from './NotDeliverOrdersCounter';
+import NotDeliverOrdersCounterComponent from './components/NotDeliverOrdersCounter';
 
 export type AppState = {
 	search: string,

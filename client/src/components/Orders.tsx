@@ -1,6 +1,6 @@
 import React from 'react';
-import {Order} from './api';
-import {api} from './App';
+import {Order} from '../api';
+import {api} from '../App';
 import OrderComponent from './Order';
 import PaginationComponent from './Pagination';
 

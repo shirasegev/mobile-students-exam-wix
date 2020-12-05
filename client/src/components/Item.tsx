@@ -1,6 +1,6 @@
 import React from 'react';
-import {Item} from './api';
-import {api} from './App';
+import {Item} from '../api';
+import {api} from '../App';
 
 export type ItemState = {
     itemId: string,

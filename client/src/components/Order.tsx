@@ -1,6 +1,6 @@
 import React from 'react';
-import {Order, Item} from './api';
-import {api} from './App';
+import {Order, Item} from '../api';
+import {api} from '../App';
 import ItemComponent from './Item';
 
 export type OrderState = {

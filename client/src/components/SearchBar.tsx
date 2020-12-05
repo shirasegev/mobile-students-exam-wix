@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {createApiClient} from './api';
+import {createApiClient} from '../api';
 
 export type SearchBarState = {
 	search: string,

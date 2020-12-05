@@ -1,5 +1,5 @@
 import React from 'react';
-import {api} from './App';
+import {api} from '../App';
 
 export type NotDeliverOrdersCounterState = {
     counter: number,
