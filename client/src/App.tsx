@@ -4,7 +4,7 @@ import {createApiClient} from './api';
 import OrdersComponent from './components/Orders';
 import SearchBarComponent from './components/SearchBar';
 import FilterComponent from './components/Filter';
-import SortComponent from './Sort';
+import SortComponent from './components/Sort';
 import NotDeliverOrdersCounterComponent from './components/NotDeliverOrdersCounter';
 
 export type AppState = {

@@ -99,17 +99,17 @@ export class OrderComponent extends React.Component<Props, OrderState> {
 	static getAssetByStatus(status: string) {
 		switch (status) {
 			case 'fulfilled':
-				return require('./assets/package.png');
+				return require('../assets/package.png');
 			case 'not-fulfilled':
-				return require('./assets/pending.png');
+				return require('../assets/pending.png');
 			case 'canceled':
-				return require('./assets/cancel.png');
+				return require('../assets/cancel.png');
 			case 'paid':
-				return require('./assets/paid.png');
+				return require('../assets/paid.png');
 			case 'not-paid':
-				return require('./assets/not-paid.png');
+				return require('../assets/not-paid.png');
 			case 'refunded':
-				return require('./assets/refunded.png');
+				return require('../assets/refunded.png');
 		}
 	}
 }

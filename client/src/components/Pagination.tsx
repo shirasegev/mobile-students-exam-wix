@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './App.scss';
+import '../App.scss';
 
 export type PaginationState = {
     page: number,
