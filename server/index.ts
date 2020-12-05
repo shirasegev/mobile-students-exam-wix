@@ -27,24 +27,20 @@ app.get('/api/orders', (req, res) => {
 	const sortBy = <string>(req.query.sortBy || '');
 
 	var myOrders = <any>applySearch(allOrders, search, fulfillmentFilter, paymentFilter);
-	if (sortBy === 'name'){
+	if (sortBy !== ''){
 		myOrders.sort((function alphabeticallySort(a: any, b: any) {
-			var nameA = a.customer.name.toLowerCase();
-			var nameB = b.customer.name.toLowerCase();
-			if (nameA > nameB)
+			var A, B;
+			if (sortBy === 'name'){
+				A = a.customer.name.toLowerCase();
+				B = b.customer.name.toLowerCase();
+			}
+			else if (sortBy === 'date'){
+				A = a.createdDate;
+				B = b.createdDate;
+			}
+			if (A > B)
 				return 1;
-			if (nameA < nameB)
-				return -1;
-			return 0;
-		}))
-	}
-	else if (sortBy === 'date'){
-		myOrders.sort((function alphabeticallySort(a: any, b: any) {
-			var dateA = a.createdDate;
-			var dateB = b.createdDate;
-			if (dateA > dateB)
-				return 1;
-			if (dateA < dateB)
+			if (A < B)
 				return -1;
 			return 0;
 		}))
@@ -68,7 +64,7 @@ app.get('/api/items/:itemId', (req, res) => {
 });
 
 // Part A1 - Updating order status at server
-app.put('/api/order/:orderId', (req, res) => {
+app.patch('/api/order/:orderId', (req, res) => {
 	const orderId : number = +<string>(req.params.orderId);
 	const fulfillmentStatus = <string>(req.body);
 	allOrders.forEach((order) => {
