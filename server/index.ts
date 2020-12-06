@@ -47,7 +47,7 @@ app.get('/api/orders', (req, res) => {
 	}
 	
 	const orders: any[] = myOrders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-	res.header('Number-Of-Pages', (myOrders.length / PAGE_SIZE).toFixed());
+	res.header('Number-Of-Pages', Math.ceil(myOrders.length / PAGE_SIZE).toFixed());
 	res.send(orders);
 });
 
@@ -96,7 +96,7 @@ const applySearch = (orders: any[], search: string, fulfillmentFilter: string, p
 function buildStr (order: any): string {
 	var str = order.customer.name.toLowerCase() + '#' + order.id + '#';
 	order.items.forEach((item: any) => {
-		str += products[item.id].name.toLowerCase();
+		str += products[item.id].name.toLowerCase() + '#';
 	});
 	return str;
 }
