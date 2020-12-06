@@ -3,8 +3,6 @@ import {Item} from '../api';
 import {api} from '../App';
 
 export type ItemState = {
-    itemId: string,
-    quantity: number,
 	item?: Item,
 };
 
@@ -17,33 +15,31 @@ export class ItemComponent extends React.Component<Props, ItemState> {
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            itemId: props.itemId,
-            quantity: props.quantity,
-        };
+        this.state = {};
     }
 
     async componentDidMount() {
 		this.setState({
-			item: await api.getItem(this.state.itemId)
+			item: await api.getItem(this.props.itemId)
 		});
-	}
+    }
 
     render() {
+        const {item} = this.state;
         return (
-            this.state.item?
+            item ?
             <div className={'itemCard'}>
                 <div className={'itemImage'}>
-                    <img src={this.state.item.image} alt={this.state.item.image}/>  
+                    <img src={item.image} alt={item.image}/>  
                 </div>
                 <div className={'itemName'}>
-                    <h4>{this.state.item.name}</h4>
+                    <h4>{item.name}</h4>
                 </div>
                 <div className={'itemQuantity'}>
-                    {this.state.quantity === 1 ? <h4>{this.state.quantity} Item</h4> : <h4>{this.state.quantity} Items</h4>}
+                    {this.props.quantity === 1 ? <h4>{this.props.quantity} Item</h4> : <h4>{this.props.quantity} Items</h4>}
                 </div>
                 <div className={'itemPrice'}>
-                    <h4>{this.state.item.price}$</h4>
+                    <h4>{item.price}$</h4>
                 </div>
             </div>
             : null
