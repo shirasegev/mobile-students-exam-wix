@@ -7,7 +7,6 @@ export type NotDeliverOrdersCounterState = {
 
 export class NotDeliverOrdersCounterComponent extends React.Component<{}, NotDeliverOrdersCounterState> {
 
-
     state : NotDeliverOrdersCounterState = {
         counter: 0,
     };

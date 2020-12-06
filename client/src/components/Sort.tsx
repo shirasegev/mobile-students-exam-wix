@@ -6,7 +6,7 @@ export type SortState = {
 };
 
 type Props = {
-    onSort: Function;
+    onSortChange: Function;
 };
 
 export class SortComponent extends React.Component<Props, SortState> {
@@ -38,10 +38,10 @@ export class SortComponent extends React.Component<Props, SortState> {
         );
     }
 
-    sort = async (value: string) => {
-        this.props.onSort(value);
+    sort = async (sortBy: string) => {
+        this.props.onSortChange(sortBy);
         this.setState({
-            sortBy: value,
+            sortBy: sortBy,
         });
     };
 }

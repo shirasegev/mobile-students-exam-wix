@@ -23,21 +23,21 @@ export class SearchBarComponent extends React.PureComponent<Props, SearchBarStat
 
 	searchDebounce: any = null;
 
-	onSearch = async (value: string, newPage?: number) => {
+	onSearchChange = async (search: string, newPage?: number) => {
 		clearTimeout(this.searchDebounce);
 
 		this.searchDebounce = setTimeout(async () => {
-			this.props.onSearchChange(value);
+			this.props.onSearchChange(search);
         }, 300);
         this.setState({
-            search: value,
+            search: search,
         });
 	};
 
 	render() {
 		return (
             <header>
-                <input type='search' placeholder='Search' onChange={(e) => this.onSearch(e.target.value)}/>
+                <input type='search' placeholder='Search' onChange={(e) => this.onSearchChange(e.target.value)}/>
             </header>
 		)
 	}
