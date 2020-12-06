@@ -4,7 +4,6 @@ import '../App.scss';
 
 export type PaginationState = {
     page: number,
-	totalPages: number,
 };
 
 type Props = {
@@ -19,23 +18,21 @@ export class PaginationComponent extends React.Component<Props, PaginationState>
         super(props);
         this.state = {
             page: props.page,
-            totalPages: props.totalPages,
         };
     }
 
     componentDidUpdate(prevProps: Props) {
-		if (this.props.page !== prevProps.page || this.props.totalPages !== prevProps.totalPages) {
-          this.setState({
+        if (this.props.page !== prevProps.page) {
+            this.setState({
               page: this.props.page,
-              totalPages: this.props.totalPages,
             });
 		}
-	  }
+	}
     
     // Part C & B1
     render () {
         var page = this.state.page;
-        var lastPage = this.state.totalPages;
+        var lastPage = this.props.totalPages;
         return (
         <div>
             <div className={'pagination'}>
@@ -71,13 +68,13 @@ export class PaginationComponent extends React.Component<Props, PaginationState>
                         
                         <button type='button' className={page === lastPage ? 'curr' : 'page'} onClick={() => this.jumptoPage(lastPage)}> {lastPage} </button>
                     </> : <>
-                        {lastPage > 1 ? <button type='button' className={page === 1 ? 'curr' : 'page'} onClick={() => this.jumptoPage(1)}> 1 </button> : null}
-                        {lastPage > 2 ? <button type='button' className={page === 2 ? 'curr' : 'page'} onClick={() => this.jumptoPage(2)}> 2 </button> : null}
-                        {lastPage > 3 ? <button type='button' className={page === 3 ? 'curr' : 'page'} onClick={() => this.jumptoPage(3)}> 3 </button> : null}
-                        {lastPage > 4 ? <button type='button' className={page === 4 ? 'curr' : 'page'} onClick={() => this.jumptoPage(4)}> 4 </button> : null}
-                        {lastPage > 5 ? <button type='button' className={page === 5 ? 'curr' : 'page'} onClick={() => this.jumptoPage(5)}> 5 </button> : null}
-                        {lastPage > 6 ? <button type='button' className={page === 6 ? 'curr' : 'page'} onClick={() => this.jumptoPage(6)}> 6 </button> : null}
-                        {lastPage > 7 ? <button type='button' className={page === 7 ? 'curr' : 'page'} onClick={() => this.jumptoPage(7)}> 7 </button> : null}
+                        {lastPage >  1 ? <button type='button' className={page === 1 ? 'curr' : 'page'} onClick={() => this.jumptoPage(1)}> 1 </button> : null}
+                        {lastPage >= 2 ? <button type='button' className={page === 2 ? 'curr' : 'page'} onClick={() => this.jumptoPage(2)}> 2 </button> : null}
+                        {lastPage >= 3 ? <button type='button' className={page === 3 ? 'curr' : 'page'} onClick={() => this.jumptoPage(3)}> 3 </button> : null}
+                        {lastPage >= 4 ? <button type='button' className={page === 4 ? 'curr' : 'page'} onClick={() => this.jumptoPage(4)}> 4 </button> : null}
+                        {lastPage >= 5 ? <button type='button' className={page === 5 ? 'curr' : 'page'} onClick={() => this.jumptoPage(5)}> 5 </button> : null}
+                        {lastPage >= 6 ? <button type='button' className={page === 6 ? 'curr' : 'page'} onClick={() => this.jumptoPage(6)}> 6 </button> : null}
+                        {lastPage >= 7 ? <button type='button' className={page === 7 ? 'curr' : 'page'} onClick={() => this.jumptoPage(7)}> 7 </button> : null}
                     </>}
                 </div>
             </div>
@@ -85,10 +82,10 @@ export class PaginationComponent extends React.Component<Props, PaginationState>
         );
     };
 
-    jumptoPage = async (val: number) => {
-        this.props.onChange(val);
+    jumptoPage = async (page: number) => {
+        this.props.onChange(page);
         this.setState({
-            page: val,
+            page: page,
         });
     };
 }
