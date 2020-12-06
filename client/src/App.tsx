@@ -9,7 +9,6 @@ export type AppState = {}
 export const api = createApiClient();
 
 export class App extends React.PureComponent<{}, AppState> {
-	// state: AppState = {};
 
 	render() {
 		return (
