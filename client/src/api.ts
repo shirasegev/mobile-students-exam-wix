@@ -36,7 +36,7 @@ export type Item = {
 export type ApiClient = {
 	getOrders: (page: number, search: string, fulfillmentFilter: string, paymentFilter: string, sortBy: string) => Promise<[Order[], number]>;
 	getItem: (itemId: string) => Promise<Item>;
-	putOrder: (order: Order) => Promise<Order>;
+	patchOrder: (order: Order) => Promise<Order>;
 	getCounter: () => Promise<number>;
 }
 
@@ -52,7 +52,7 @@ export const createApiClient = (): ApiClient => {
 			return axios.get(`http://localhost:3232/api/items/${itemId}?size=small`).then((res) => res.data);
 		},
 		// Part A1 - Updating order status at server
-		putOrder: (order: Order) => {
+		patchOrder: (order: Order) => {
 			return axios.patch(`http://localhost:3232/api/order/${order.id}`, order.fulfillmentStatus, {headers: {"Content-Type": "text/plain"}}).then((res) => res.data);
 		},
 		getCounter: () => {
