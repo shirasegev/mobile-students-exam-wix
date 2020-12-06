@@ -37,6 +37,19 @@ export class FilterComponent extends React.Component<Props, FilterState> {
         );
     }
 
+    // // Part B 3
+    // render () {
+    //     return (
+    //         <div className={'filter'}>
+    //             <select className={'selectpicker'} onChange={(e) => this.handleFilterChanged(e.target.value)}>
+    //                 this.props.values.keys.map((key) => {
+    //                     <option value={key}>{this.props.values[key]}</option>
+    //                 })
+    //             </select>
+    //         </div>
+    //     );
+    // }
+
     showFulfillmentFilterOptions = () => {
         return (
             <select className={'selectpicker'} onChange={(e) => this.handleFulfillmentOptionChange(e.target.value)}>
@@ -48,10 +61,10 @@ export class FilterComponent extends React.Component<Props, FilterState> {
         )
     };
 
-    handleFulfillmentOptionChange = (value: string) => {
-        this.props.onFulfillmentFilter(value);
+    handleFulfillmentOptionChange = (fulfillmentFilter: string) => {
+        this.props.onFulfillmentFilter(fulfillmentFilter);
         this.setState({
-            selectedFulfillmentOption: value,
+            selectedFulfillmentOption: fulfillmentFilter,
         });
     }
 
@@ -66,10 +79,10 @@ export class FilterComponent extends React.Component<Props, FilterState> {
         )
     };
 
-    handlePaymentOptionChange = (value: string) => {
-        this.props.onPaymentFilter(value);
+    handlePaymentOptionChange = (paymentFilter: string) => {
+        this.props.onPaymentFilter(paymentFilter);
         this.setState({
-            selectedPaymentOption: value,
+            selectedPaymentOption: paymentFilter,
         });
     }
 }

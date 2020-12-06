@@ -9,7 +9,6 @@ import NotDeliverOrdersCounterComponent from './components/NotDeliverOrdersCount
 
 export type AppState = {
 	search: string,
-	
 	fulfillmentFilter: string,
 	paymentFilter: string,
 	sortBy: string,
@@ -20,7 +19,6 @@ export const api = createApiClient();
 export class App extends React.PureComponent<{}, AppState> {
 	state: AppState = {
 		search: '',
-
 		fulfillmentFilter: '',
 		paymentFilter: '',
 		sortBy: '',
@@ -33,44 +31,39 @@ export class App extends React.PureComponent<{}, AppState> {
 					<h1>Orders</h1>
 					<NotDeliverOrdersCounterComponent/>
 				</div>
-				<SearchBarComponent onSearchChange={this.onSearch}/>
+				<SearchBarComponent onSearchChange={this.onSearchChange}/>
 				<div className={'filterAndSort'}>
-					<SortComponent onSort={this.onSort}/>
-					<FilterComponent onFulfillmentFilter={this.onFulfillmentFilter} onPaymentFilter={this.onPaymentFilter}/>
+					<SortComponent onSort={this.onSortChange}/>
+					<FilterComponent onFulfillmentFilter={this.onFulfillmentFilterChange} onPaymentFilter={this.onPaymentFilterChange}/>
 				</div>
 				<OrdersComponent search={this.state.search} fulfillmentFilter={this.state.fulfillmentFilter} paymentFilter={this.state.paymentFilter} sortBy={this.state.sortBy}/>
 			</main>
 		)
 	}
 
-	onSearch = (value: string) => {
-		console.log(value);
+	onSearchChange = (search: string) => {
         this.setState({
-            search: value,
+            search: search,
         });
 	};
 	
-	onSort = (value: string) => {
-		console.log(value);
+	onSortChange = (sortBy: string) => {
         this.setState({
-            sortBy: value,
+            sortBy: sortBy,
         });
     };
 	
-	onFulfillmentFilter = (value: string) => {
-		console.log(value);
+	onFulfillmentFilterChange = (fulfillmentFilter: string) => {
         this.setState({
-            fulfillmentFilter: value,
+            fulfillmentFilter: fulfillmentFilter,
         });
     };
 	
-	onPaymentFilter = (value: string) => {
-		console.log(value);
+	onPaymentFilterChange = (paymentFilter: string) => {
         this.setState({
-            paymentFilter: value,
+            paymentFilter: paymentFilter,
         });
     };
-
 
 }
 
