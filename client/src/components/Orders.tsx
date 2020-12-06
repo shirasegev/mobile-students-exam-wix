@@ -3,49 +3,53 @@ import {Order} from '../api';
 import {api} from '../App';
 import OrderComponent from './Order';
 import PaginationComponent from './Pagination';
+import SearchBarComponent from './SearchBar';
+import FilterComponent from './Filter';
+import SortComponent from './Sort';
 
-export type State = {
+export type OrdersState = {
 	orders?: Order[],
 	page: number,
 	totalPages: number,
-};
-
-type Props = {
 	search: string,
 	fulfillmentFilter: string,
 	paymentFilter: string,
 	sortBy: string,
 };
 
-export class OrdersComponent extends React.Component<Props, State> {
+export class OrdersComponent extends React.Component<{}, OrdersState> {
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-			page: 1,
-			totalPages: 1,
-		};
-	}	
+    state: OrdersState = {
+		page: 1,
+		totalPages: 1,
+		search: '',
+		fulfillmentFilter: '',
+		paymentFilter: '',
+		sortBy: '',
+	};
 	
 	async componentDidMount() {
 		this.getOrders();
 	}
-	
-	componentDidUpdate(prevProps: Props) {
-		if (this.props.search !== prevProps.search ||
-			this.props.fulfillmentFilter !== prevProps.fulfillmentFilter ||
-			this.props.paymentFilter !== prevProps.paymentFilter ||
-			this.props.sortBy !== prevProps.sortBy)
-		{
-		  	this.getOrders();
-		}
-	}
     
     render(){
 		const {orders} = this.state;
-		console.log('rendering');
 		return (
 			<div>
+				<SearchBarComponent onSearchChange={this.onSearchChange}/>
+				<div className={'filterAndSort'}>
+					<SortComponent onSortChange={this.onSortChange}/>
+            		<div className={'filters'}>
+						<div className={'filter'}>
+							<h4>Fulfillment filter: </h4>
+							<FilterComponent values={this.fulfillmentValues} onFilterChange={this.onFulfillmentFilterChange}/>
+						</div>
+						<div className={'filter'}>
+							<h4>Payment filter: </h4>
+							<FilterComponent values={this.paymentValues} onFilterChange={this.onPaymentFilterChange}/>
+						</div>
+					</div>
+            	</div>	
 				{orders? 
 				<>
 					<div className='results'>Showing {orders.length} results</div>
@@ -62,22 +66,59 @@ export class OrdersComponent extends React.Component<Props, State> {
 			</div>
 		)
     };
-    
-    getOrders = async (page?: number) => {
-		var pageNumber = page ?? 1;
 
-		const [orders, totalPages] = await api.getOrders(pageNumber, this.props.search, this.props.fulfillmentFilter, this.props.paymentFilter, this.props.sortBy);
+	getOrders = async (page?: number, search?: string, fulfillmentFilter?: string, paymentFilter?: string, sortBy?: string) => {
+		var pageNumber = page ?? 1;
+		var searchTerm =  search ?? this.state.search;
+		var selectedFulfillmentFilter = fulfillmentFilter ?? this.state.fulfillmentFilter;
+		var selectedPaymentFilter = paymentFilter ?? this.state.paymentFilter;
+		var sortByParam = sortBy ?? this.state.sortBy;
+		
+		const [orders, totalPages] = await api.getOrders(pageNumber, searchTerm, selectedFulfillmentFilter, selectedPaymentFilter, sortByParam);
 		this.setState({
 			orders: orders,
-			// page: pageNumber,
+			page: pageNumber,
 			totalPages: totalPages,
+			search: searchTerm,
+			fulfillmentFilter: selectedFulfillmentFilter,
+			paymentFilter: selectedPaymentFilter,
+			sortBy: sortByParam,
 		});
 	};
 
 	setPage = (pageNumber: number) => {
-		this.setState({page: pageNumber,})
 		this.getOrders(pageNumber);
 	};
+	
+	onSearchChange = (search: string) => {
+		this.getOrders(undefined, search);
+	};
+
+	onFulfillmentFilterChange = (fulfillmentFilter: string) => {
+		this.getOrders(undefined, undefined, fulfillmentFilter);
+    };
+	
+	onPaymentFilterChange = (paymentFilter: string) => {
+		this.getOrders(undefined, undefined, undefined, paymentFilter);
+    };
+	
+	onSortChange = (sortBy: string) => {
+		this.getOrders(undefined, undefined, undefined, undefined, sortBy);
+    };
+
+	fulfillmentValues: string[][] = ([
+		['', 'All orders'],
+		['fulfilled', 'Delivered orders'],
+		['not-fulfilled', 'Not delivered orders'],
+		['canceled', 'Canceled orders'],
+	]);
+	
+	paymentValues: string[][] = ([
+		['', 'All orders'],
+		['paid', 'Paid orders'],
+		['not-paid', 'Not paid orders'],
+		['refunded', 'Refunded orders'],
+	]);
 }
 
 export default OrdersComponent;
